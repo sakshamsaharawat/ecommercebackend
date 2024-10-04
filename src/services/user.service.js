@@ -3,15 +3,12 @@ const bcrypt = require('bcrypt');
 const jwtProvider = require('../config/jwtProvider')
 
 const createUser = async (userData) => {
-    console.log("-----", userData)
     try {
         let { firstName, lastName, email, password } = userData
         const isUserExist = await User.findOne({ email });
-        console.log("email", email)
         if (isUserExist) {
             throw new Error("user already exist with email:", email)
         }
-        console.log("passssss", password)
         password = await bcrypt.hash(password, 8);
         const user = await User.create({
             firstName,
@@ -20,7 +17,6 @@ const createUser = async (userData) => {
             password
         })
 
-        console.log("allllllllllllll", user)
         return user;
     } catch (error) {
         throw new Error(error.message)
@@ -30,7 +26,7 @@ const createUser = async (userData) => {
 const findUserById = async (userId) => {
     try {
         const user = await User.findById(userId)
-        // .populate("address");
+        .populate("address");
         if (!user) {
             throw new Error("user not found with id:", userId)
         }

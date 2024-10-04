@@ -15,10 +15,18 @@ async function createCart(user) {
 }
 
 async function findUserCart(userId) {
+    console.log("=====", userId);
     try {
-        let cart = await Cart.findOne({ user: user });
-        let cartItems = await Cart.findOne({ cart: cart._id }).populate("product");
-        cart.cartItems = cartItems;
+        let cart = await Cart.findOne({ user: userId })
+        .populate('cartItems.product');  
+
+    if (!cart) {
+        throw new Error('Cart not found for the user.');
+    }
+
+    if (!cart.cartItems || cart.cartItems.length === 0) {
+        throw new Error('No items found in the cart.');
+    }
 
         let totalPrice = 0;
         let totalDiscountedPrice = 0;
@@ -32,13 +40,15 @@ async function findUserCart(userId) {
 
         cart.totalPrice = totalPrice;
         cart.totalItem = totalItem;
-        cart.discounte = totalPrice - totalDiscountedPrice;
+        cart.discount = totalPrice - totalDiscountedPrice;
         return cart;
 
     } catch (error) {
-        throw new Error(error.message)
+        console.error(error.message);
+        throw new Error(error.message);
     }
 }
+
 
 async function addCartItem(userId, req) {
     try {

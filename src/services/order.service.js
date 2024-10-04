@@ -1,7 +1,6 @@
 const Address = require("../models/address.model");
 const cartService = require("../services/cart.service");
 const Order = require("../models/order.model");
-const { default: orders } = require("razorpay/dist/types/orders");
 
 async function createOrder(user, shippingAddress) {
     let address;

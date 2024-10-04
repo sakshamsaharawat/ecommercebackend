@@ -30,4 +30,4 @@ const orderHistory = async (req, res) => {
     }
 }
 
-module.exports = { createOrder, findOrderById }
+module.exports = { createOrder, findOrderById, orderHistory }

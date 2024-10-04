@@ -2,7 +2,8 @@ const Category = require("../models/category.model");
 const Product = require("../models/product.model");
 
 async function createProduct(reqData) {
-    let topLevel = await Category.findOne({ name: req.Data.topLevelCategory });
+    console.log("data",reqData)
+    let topLevel = await Category.findOne({ name: reqData.topLevelCategory });
 
     if (!topLevel) {
         topLevel = new Category({
@@ -38,6 +39,7 @@ async function createProduct(reqData) {
         title: reqData.title,
         color: reqData.color,
         description: reqData.description,
+        discountedPrice:reqData.discountedPrice,
         discountedPercent: reqData.discountedPercent,
         imageUrl: reqData.imageUrl,
         brand: reqData.brand,
@@ -131,4 +133,4 @@ async function createMultipleProduct(products) {
 
 }
 
-module.exports = { createMultipleProduct, deleteProduct, getAllProduct, updateProduct, findProductById }
+module.exports = { createProduct, createMultipleProduct, deleteProduct, getAllProduct, updateProduct, findProductById }

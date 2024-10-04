@@ -16,15 +16,11 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    price: {
-        type: Number,
-        required: true
-    },
     discountedPrice: {
         type: Number,
         required: true
     },
-    discountPercent: {
+    discountedPercent: {
         type: Number,
         required: true
     },
@@ -33,11 +29,11 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     brand: {
-        type: Number,
+        type: String,
         required: true
     },
     color: {
-        type: Number,
+        type: String,
         required: true
     },
     sizes: [{
@@ -60,7 +56,7 @@ const productSchema = new mongoose.Schema({
         default:0
     },
     Category:{
-        type:mongoose.schema.Types.objectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:'categories'
     },
     

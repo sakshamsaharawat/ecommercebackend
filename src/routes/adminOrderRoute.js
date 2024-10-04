@@ -11,4 +11,4 @@ router.put('/:orderId/cancel', authenticate, adminOrderController.cancelledOrder
 router.delete('/:orderId/delete', authenticate, adminOrderController.deleteOrders);
 
 
-module.exports = router
+module.exports = router 
