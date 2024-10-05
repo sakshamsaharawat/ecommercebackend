@@ -55,7 +55,7 @@ const orderSchema = new mongoose.Schema({
         required: true,
         default: "PENDING"
     },
-    totaltem: {
+    totalItem: {
         type: String,
         required: true,
     },

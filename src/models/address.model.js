@@ -10,7 +10,7 @@ const adressSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    streetAdreess: {
+    streetAddress: {
         type: String,
         required: true
     },
