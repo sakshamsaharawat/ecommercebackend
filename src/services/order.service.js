@@ -26,7 +26,6 @@ async function createOrder(user, shippingAddress) {
         const orderItems = [];
         // console.log(cart.cartItems)
         for (const item of cart.cartItems) {
-            console.log("item---",item)
             const newOrderItem = new OrderItem({
                 price: item.price,
                 product: item.product,

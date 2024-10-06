@@ -45,17 +45,17 @@ const productSchema = new mongoose.Schema({
     },
     ratings: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ratings"
+        ref: "rating"
     }],
     reviews: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "reviews"
+        ref: "review"
     }],
     numRatings:{
         type:String,
         default:0
     },
-    Category:{
+    category:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'categories'
     },

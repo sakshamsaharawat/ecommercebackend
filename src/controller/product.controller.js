@@ -34,7 +34,6 @@ const updateProduct = async (req, res) => {
 }
 const findProductById = async (req, res) => {
     const productId = req.params.id
-
     try {
         const product = await productService.findProductById(productId);
         return res.status(201).send(product);
@@ -43,16 +42,14 @@ const findProductById = async (req, res) => {
         return res.status(500).send({ message: error.message })
     }
 }
-
 const getAllProducts = async (req, res) => {
     try {
-        const product = await productService.findProductById(req.query);
-        return res.status(201).send(product);
-
+        const products = await productService.getAllProducts(req.query); // Pass query parameters if needed for filtering
+        return res.status(200).send(products);
     } catch (error) {
-        return res.status(500).send({ message: error.message })
+        return res.status(500).send({ message: error.message });
     }
-}
+};
 
 const createMultipleProduct = async (req, res) => {
     try {
