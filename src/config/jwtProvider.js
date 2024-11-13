@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 
-const generateToken = (userId) => {
-    const token = jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: "48h" })
+const generateToken = (data) => {
+    const token = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: "48h" })
 console.log("+++++++++  ",token)
 
     return token;
@@ -9,6 +9,7 @@ console.log("+++++++++  ",token)
 
 const getUserIdFromToken = (token) => {
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
+    console.log("-------",decodedToken)
     return decodedToken.userId;
 }
 

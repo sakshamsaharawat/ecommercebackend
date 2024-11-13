@@ -6,7 +6,13 @@ const register = async (req, res) => {
     try {
         const user = await userService.createUser(req.body);
 
-        const jwt = jwtProvider.generateToken(user._id)
+        const jwt = jwtProvider.generateToken({
+            userId: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
+
+        });
         // await cartService.createUser(user)
         return res.status(200).send({ jwt, message: "register successfully" })
     } catch (error) {
@@ -39,7 +45,7 @@ const login = async (req, res) => {
         }
 
         // Generate JWT token
-        const jwt = jwtProvider.generateToken(user._id);
+        const jwt = jwtProvider.generateToken({userId: user._id, firstName: user.firstName});
         return res.status(200).send({ jwt, message: "Login successfully" });
 
     } catch (error) {
