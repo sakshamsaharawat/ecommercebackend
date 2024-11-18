@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Category = require("./category.model");
 
 const productSchema = new mongoose.Schema({
 
@@ -32,7 +31,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    color: {
+    colors: {
         type: String,
         required: true
     },

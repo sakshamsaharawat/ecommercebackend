@@ -4,7 +4,7 @@ const jwtProvider = require('../config/jwtProvider')
 
 const createUser = async (userData) => {
     try {
-        let { firstName, lastName, email, password } = userData
+        let { firstName, lastName, email, password, role } = userData
         const isUserExist = await User.findOne({ email });
         if (isUserExist) {
             throw new Error("user already exist with email:", email)
@@ -14,7 +14,8 @@ const createUser = async (userData) => {
             firstName,
             lastName,
             email,
-            password
+            password,
+            role
         })
 
         return user;

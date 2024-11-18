@@ -44,7 +44,9 @@ const findProductById = async (req, res) => {
 }
 const getAllProducts = async (req, res) => {
     try {
+        console.log("Incoming query params:", req.query);
         const products = await productService.getAllProducts(req.query); // Pass query parameters if needed for filtering
+       console.log("products",products)
         return res.status(200).send(products);
     } catch (error) {
         return res.status(500).send({ message: error.message });
