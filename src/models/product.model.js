@@ -31,11 +31,11 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    colors: {
+    color: {
         type: String,
         required: true
     },
-    sizes: [{
+    size: [{
         name: { type: String },
         quantity: { type: Number }
     }],
