@@ -1,9 +1,12 @@
 const Address = require("../models/address.model");
 const cartService = require("../services/cart.service");
 const Order = require("../models/order.model");
-const OrderItem = require("../models/orderItems.model")
+const OrderItem = require("../models/orderItems.model");
+const Cart = require("../models/cart.model");
 
 async function createOrder(user, shippingAddress) {
+    // console.log("user===",user)
+    // console.log("shippingAddress===",shippingAddress)
     try {
         let address;
         if (shippingAddress._id) {
@@ -18,40 +21,37 @@ async function createOrder(user, shippingAddress) {
         }
 
         const cart = await cartService.findUserCart(user._id);
-        // console.log("cart",cart)
 
-        if (!cart.cartItems || cart.cartItems.length === 0) {
+        if (!cart.length || cart[0].cartItems.length === 0) {
             return { message: 'Cart is empty, cannot create order' };
         }
         const orderItems = [];
-        // console.log(cart.cartItems)
-        for (const item of cart.cartItems) {
+        
+        for (const item of cart[0].cartItems) {
             const newOrderItem = new OrderItem({
                 price: item.price,
-                product: item.product,
+                product: item.product[0]._id,
                 quantity: item.quantity,
                 size: item.size,
                 userId: item.userId,
                 discountedPrice: item.discountedPrice,
             });
-            // console.log("newOrderItem",newOrderItem)
+            
             const createdOrderItem = await newOrderItem.save();
             orderItems.push(createdOrderItem);
 
         }
-        // console.log(orderItems)
 
         const createdOrder = new Order({
             user,
             orderItems,
-            totalPrice: cart.totalPrice,
-            totalDiscountedPrice: cart.totalDiscountePrice,
-            discount: cart.discounte,
+            totalPrice: cart[0].totalPrice,
+            totalDiscountedPrice: cart[0].totalDiscountedPrice,
+            discount: cart[0].discounte,
             shippingAddress: address,
             totalItem: 1
         });
-        // console.log("createdOrder", createdOrder);
-
+        console.log("createdOrder", createdOrder);
         return await createdOrder.save();
     } catch (error) {
         console.log(error)

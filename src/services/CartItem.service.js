@@ -8,17 +8,15 @@ async function updateCartItem(userId, cartItemId, cartItemData) {
             throw new Error("Cart item not found: " + cartItemId);
         }
         const user = await userService.findUserById(item.userId);
-        if (!user) {
+        if (!user) {        
             throw new Error("User not found: " + userId);
         }
 
         if (user._id.toString() === userId.toString()) {
             item.quantity = cartItemData.quantity;
-            item.price = cartItemData.price;
-            item.discountedPrice = cartItemData.discountedPrice
 
-            item.price = item.quantity * cartItemData.price;
-            item.discountedPrice = item.quantity * cartItemData.discountedPrice;
+            item.price = item.quantity * item.product[0].price;
+            item.discountedPrice = item.quantity * item.product[0].discountedPrice;
 
             const updatedCartItem = await item.save();
             return updatedCartItem;

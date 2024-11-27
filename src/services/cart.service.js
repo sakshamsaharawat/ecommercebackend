@@ -24,6 +24,7 @@ async function findUserCart(userId) {
         }
 
         if (!cart.cartItems || cart.cartItems.length === 0) {
+            console.log("cart.cartItems++++++",cart.cartItems)
             throw new Error('No items found in the cart.');
         }
 
@@ -43,6 +44,7 @@ async function findUserCart(userId) {
         cart.discounte = totalPrice - totalDiscountedPrice;
 
         await cart.save();
+        
         const carts = await Cart.find()
             .populate({
                 path: "cartItems",
