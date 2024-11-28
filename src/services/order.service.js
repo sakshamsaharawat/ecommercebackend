@@ -5,8 +5,6 @@ const OrderItem = require("../models/orderItems.model");
 const Cart = require("../models/cart.model");
 
 async function createOrder(user, shippingAddress) {
-    // console.log("user===",user)
-    // console.log("shippingAddress===",shippingAddress)
     try {
         let address;
         if (shippingAddress._id) {
@@ -30,7 +28,7 @@ async function createOrder(user, shippingAddress) {
         for (const item of cart[0].cartItems) {
             const newOrderItem = new OrderItem({
                 price: item.price,
-                product: item.product[0]._id,
+                product: item.product._id,
                 quantity: item.quantity,
                 size: item.size,
                 userId: item.userId,
@@ -51,7 +49,6 @@ async function createOrder(user, shippingAddress) {
             shippingAddress: address,
             totalItem: 1
         });
-        console.log("createdOrder", createdOrder);
         return await createdOrder.save();
     } catch (error) {
         console.log(error)
@@ -97,21 +94,25 @@ async function cancelledOrder(orderId) {
 
 }
 
-async function findOrderById(orderId) {
-    const order = await Order.findById(orderId)
-        .populate("user")
-        .populate({ path: "orderItems", populate: { path: "product" } })
-        .populate("shippingAddress")
+const findOrderById = async (id) => {
+    try {
+        const order = await Order.findById(id)
+            .populate("user")
+            .populate({ path: "orderItems", populate: { path: "product" } })
+            .populate("shippingAddress");
 
-    return order;
-
-}
+        return order;
+    } catch (error) {
+        console.error("Error in service layer:", error);
+        throw error;
+    }
+};
 
 async function userOrderHistory(userId) {
     try {
         const order = await Order.find({ user: userId, orderStatus: "PLACED" })
             .populate({ path: "orderItems", populate: { path: "product" } }).lean()
-        return orders;
+        return order;
     } catch (error) {
         throw new Error(error.message)
     }

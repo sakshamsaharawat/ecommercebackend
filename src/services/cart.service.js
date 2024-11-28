@@ -11,7 +11,6 @@ async function createCart(user) {
     } catch (error) {
         throw new Error(message.error)
     }
-
 }
 
 async function findUserCart(userId) {
@@ -24,9 +23,9 @@ async function findUserCart(userId) {
         }
 
         if (!cart.cartItems || cart.cartItems.length === 0) {
-            console.log("cart.cartItems++++++",cart.cartItems)
             throw new Error('No items found in the cart.');
         }
+
 
         let totalPrice = 0;
         let totalDiscountedPrice = 0;
@@ -37,14 +36,13 @@ async function findUserCart(userId) {
             totalDiscountedPrice += cartItem.discountedPrice;
             totalItem += cartItem.quantity;
         }
-
         cart.totalPrice = totalPrice;
         cart.totalItem = totalItem;
         cart.totalDiscountedPrice = totalDiscountedPrice;
         cart.discounte = totalPrice - totalDiscountedPrice;
 
         await cart.save();
-        
+
         const carts = await Cart.find()
             .populate({
                 path: "cartItems",
@@ -54,6 +52,12 @@ async function findUserCart(userId) {
                 },
             })
             .exec();
+        carts.cartItems = carts[0].cartItems.map(cartItem => {
+            if (Array.isArray(cartItem.product)) {
+                cartItem.product = cartItem.product[0];
+            }
+            return cartItem;
+        });
         return carts;
     } catch (error) {
         console.error(error.message);
@@ -64,25 +68,20 @@ async function findUserCart(userId) {
 
 async function addCartItem(userId, req) {
     try {
-        // Find the user's cart
         const cart = await Cart.findOne({ user: userId });
         if (!cart) {
             return { status: false, message: "Cart not found" };
         }
 
-        // Fetch the product details
         const product = await Product.findById(req.productId);
         if (!product) {
             return { status: false, message: "Product not found" };
         }
 
-        // Check if the product is already in the cart
         const isPresent = await CartItem.findOne({ cart: cart._id, product: product._id, userId });
         if (isPresent) {
             return { status: false, message: "Item already in cart" };
         }
-
-        // Create a new cart item
         const cartItem = new CartItem({
             product: product._id,
             cart: cart._id,
@@ -93,10 +92,8 @@ async function addCartItem(userId, req) {
             discountedPrice: product.discountedPrice,
         });
 
-        // Save the cart item
         await cartItem.save();
 
-        // Add the new cart item to the cart and save
         cart.cartItems.push(cartItem);
         await cart.save();
 
