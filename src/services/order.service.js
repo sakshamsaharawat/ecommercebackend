@@ -60,12 +60,6 @@ async function placeOrder(orderId) {
     order.orderStatus = "PLACED";
     return await order.save()
 }
-async function placeOrder(orderId) {
-    const order = await findOrderById(orderId);
-    order.orderStatus = "PLACED";
-    return await order.save();
-
-}
 async function confrimedOrder(orderId) {
     const order = await findOrderById(orderId);
     order.orderStatus = "CONFIRMED";
@@ -94,7 +88,7 @@ async function cancelledOrder(orderId) {
 
 }
 
-const findOrderById = async (id) => {
+const findOrderById = async (id) => {   
     try {
         const order = await Order.findById(id)
             .populate("user")

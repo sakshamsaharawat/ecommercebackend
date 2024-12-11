@@ -19,7 +19,9 @@ async function updateCartItem(userId, cartItemId, cartItemData) {
             item.discountedPrice = item.quantity * item.product.discountedPrice;
 
             const updatedCartItem = await item.save();
+            console.log("updatedCartItem",updatedCartItem)
             return updatedCartItem;
+
         } else {
             throw new Error("You can't update this cart item");
         }

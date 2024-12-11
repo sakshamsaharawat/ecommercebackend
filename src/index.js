@@ -14,7 +14,7 @@ connectDb();
 
 // Define routes
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('RAM RAM JI');
 });
 
 const authRouters = require("./routes/authRoute");
@@ -27,6 +27,7 @@ const orderRouters = require("../src/routes/orderRoute");
 const productRouters = require("../src/routes/productRoute");
 const ratingRouters = require("../src/routes/ratingRoute");
 const reviewRouters = require("../src/routes/reviewRoute");
+const paymentRouters = require("../src/routes/paymentRoute")
 
 app.use("/auth", authRouters);
 app.use("/user", userRouters);
@@ -38,6 +39,7 @@ app.use("/products", productRouters);
 app.use("/ratings", ratingRouters);
 app.use("/review", reviewRouters);
 app.use("/cart", cartRouters);
+app.use("/payment",paymentRouters)
 
 module.exports = app;
  
