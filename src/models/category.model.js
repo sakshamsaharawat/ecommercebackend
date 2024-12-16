@@ -5,7 +5,7 @@ const categorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        default: 50
+        
     },
     parentCategory: [{
         type: mongoose.Schema.Types.ObjectId,

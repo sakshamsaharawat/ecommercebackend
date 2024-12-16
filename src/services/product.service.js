@@ -57,14 +57,11 @@ async function createProduct(reqData) {
 
 async function deleteProduct(productId) {
     const product = await findProductById(productId);
-
     await Product.findByIdAndDelete(productId);
     return { status: true, message: "Product deleted Successfully" }
-
 }
 
 async function updateProduct(productId, reqData) {
-    console.log("reqData", reqData)
     await Product.findByIdAndUpdate(productId, reqData);
     return { status: true, message: "Product updated Successfully" }
 
