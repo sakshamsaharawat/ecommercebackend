@@ -8,7 +8,7 @@ async function updateCartItem(userId, cartItemId, cartItemData) {
             throw new Error("Cart item not found: " + cartItemId);
         }
         const user = await userService.findUserById(item.userId);
-        if (!user) {        
+        if (!user) {
             throw new Error("User not found: " + userId);
         }
 
@@ -19,7 +19,7 @@ async function updateCartItem(userId, cartItemId, cartItemData) {
             item.discountedPrice = item.quantity * item.product.discountedPrice;
 
             const updatedCartItem = await item.save();
-            console.log("updatedCartItem",updatedCartItem)
+            console.log("updatedCartItem", updatedCartItem)
             return updatedCartItem;
 
         } else {
